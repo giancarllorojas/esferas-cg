@@ -7,6 +7,7 @@ import random
 esferas = []
 
 class Esfera:
+
     def __init__(self):
     #Cor aleatória
         self.color = [random.random(), random.random(), random.random()]
@@ -14,7 +15,7 @@ class Esfera:
     #Posição aleatória
         self.x = random.randint(-3, 3)
         self.y = random.randint(-3, 3)
-        self.z = random.randint(-3, 3)
+        self.z = 0
 
     #Velocidade aleatória
         self.speedx = random.random()
@@ -37,6 +38,7 @@ class Esfera:
         self.y += self.speedy*0.3
 
 def main():
+
     #Inicializa glut e cria janela
     glutInit()
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH)
@@ -50,8 +52,8 @@ def main():
     glEnable(GL_DEPTH_TEST)
 
     #Cria esferas
-    numero_de_esferas = 7
-    for i in range(numero_de_esferas + 1):
+    numero_de_esferas = 5
+    for i in range(numero_de_esferas):
         esferas.append(Esfera())
 
 
@@ -82,16 +84,17 @@ def main():
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-    glPushMatrix()
 
     for esfera in esferas:
+        glPushMatrix()
+
         esfera.action()
         glMaterialfv(GL_FRONT,GL_DIFFUSE,esfera.color)
         glTranslate(esfera.x, esfera.y, esfera.z)
         glutSolidSphere(1.3,60,60)
-        glTranslate(-esfera.x, -esfera.y, -esfera.z)
+        #glTranslate(-esfera.x, -esfera.y, -esfera.z)
 
-    glPopMatrix()
+        glPopMatrix()
     glutSwapBuffers()
     return
 
