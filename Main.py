@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
@@ -21,55 +23,21 @@ def main():
     glutInit()
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH)
     glutInitWindowSize(600,600)
-    glutCreateWindow('Computacao Grafica')
-
-    '''
-    #Configura background e modelos
-    glClearColor(0.3,0.3,0.3,1.0)
-    glShadeModel(GL_SMOOTH)
-    glEnable(GL_CULL_FACE)
-    glEnable(GL_DEPTH_TEST)
-
-    
-
-    #Cria os objetos de esfera
-    numero_de_esferas = 5
-    for i in range(numero_de_esferas):
-        esferas.append(Esfera(esferas))
+    glutCreateWindow('Computacao Grafica 2018.1')
 
 
-    #Iluminação
-    glEnable(GL_LIGHTING)
-    lightZeroPosition = [10.,4.,10.,1.]
-    lightZeroColor = [0.8,1.0,0.8,1.0]
-    glLightfv(GL_LIGHT0, GL_POSITION, lightZeroPosition)
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor)
-    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.1)
-    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.05)
-    glEnable(GL_LIGHT0)
-
-    '''
-    #Loop
     glutDisplayFunc(display)
     glutIdleFunc(atualiza)
     glutMouseFunc(mouse)
     glutKeyboardFunc(teclado)
 
-    '''
-    #Camera
-    glMatrixMode(GL_PROJECTION)
-    gluPerspective(40.0,1.0,10.0,40.0)
-    glMatrixMode(GL_MODELVIEW)
-    gluLookAt(0,0,40,
-              0,0,0,
-              0,1,0)
-    glPushMatrix()
-
-    '''
     inicializa()
     glutMainLoop()
     return
 
+'''
+Instancializa os objetos das esferas, a iluminação e a matriz de perspectiva
+'''
 def inicializa():
     global NUMERO_ESFERAS, TAMANHO_CUBO
     for i in range(NUMERO_ESFERAS):

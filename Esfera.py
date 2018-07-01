@@ -6,40 +6,6 @@ import random
 import math
 import numpy as np
 
-'''
-Função para calcular o angulo entre duas esferas
-método: 
-1. Achar o plano tangente as esferas usando o ponto central da esfera e a velocidade como vetor normal
-2. Calcular o ângulo diedro(angulo entre os planos)
-
-
-'''
-def calcula_angulo_entre_esferas(e1, e2):
-    #print("e1: " + str(e1.x) + " " + str(e1.y) + " " + str(e1.z) + " e2: " + str(e2.x) + " " + str(e2.y) + " " + str(e2.z))
-
-    coef = abs((e1.x*e2.x) + (e1.y*e2.y) + (e1.z*e2.z))
-    num  = math.sqrt((e1.x**2) + (e1.y**2) + (e1.z**2)) * math.sqrt((e2.x**2) + (e2.y**2) + (e2.z**2))
-    cos  = coef/num
-
-    print(str(coef) + " - " + str(num) + " - " + str(cos))
-
-    return math.acos(cos)
-
-'''
-Funcao antiga que usamos numa tentativa de otimizar o custo, mas deixamos pra lá
-'''
-def check_colissions(esferas):
-    remaining_spheres = esferas.copy()
-    for e1 in esferas:
-        for e2 in remaining_spheres:
-            if(e1 != e2): # Compara apenas com as outras esferas
-                distance = math.sqrt(((e2.x - e1.x)**2) + ((e2.y - e1.y)**2) + ((e2.z - e1.z)**2)) # Calcula a distância entre os centros das esferas
-
-                if(distance < (e2.raio + e1.raio)): # Se a distancia entre os centros é menor que a soma dos raios, então houve uma colisão
-                    e1.invert_speed(e2)
-                    e2.invert_speed(e1)
-
-        remaining_spheres.pop()
         
 # Objeto para a esfera
 class Esfera:
@@ -50,7 +16,10 @@ class Esfera:
         #Cor aleatória
         self.color = [random.random(), random.random(), random.random()]
     
+        #Raio aleatório
         self.raio  = random.uniform(0.1, 0.2)
+
+        #Fronteiras do cubo
         self.max   = (tamanho_cubo/2) - (self.raio/2)
         self.min   = -self.max
 
@@ -65,11 +34,12 @@ class Esfera:
         self.massa  = self.raio*2
         
 
-    #Velocidade aleatória
+        #Velocidade aleatória
         self.speedx = random.uniform(0,0.05)
         self.speedy = random.uniform(0,0.05)
         self.speedz = random.uniform(0,0.05)
 
+    
     def action(self):
         if(self.x > self.max):
             self.speedx *= -1
@@ -149,3 +119,41 @@ class Esfera:
         glTranslate(self.x, self.y, self.z)
         glutSolidSphere(self.raio, 30, 30)
         glPopMatrix()
+
+
+'''
+@deprecated
+Função para calcular o angulo entre duas esferas
+método: 
+1. Achar o plano tangente as esferas usando o ponto central da esfera e a velocidade como vetor normal
+2. Calcular o ângulo diedro(angulo entre os planos)
+
+
+Acabamos não usando essa função porque fomos por outro método para calcular a nova velocidade após colisão
+'''
+def calcula_angulo_entre_esferas(e1, e2):
+    #print("e1: " + str(e1.x) + " " + str(e1.y) + " " + str(e1.z) + " e2: " + str(e2.x) + " " + str(e2.y) + " " + str(e2.z))
+
+    coef = abs((e1.x*e2.x) + (e1.y*e2.y) + (e1.z*e2.z))
+    num  = math.sqrt((e1.x**2) + (e1.y**2) + (e1.z**2)) * math.sqrt((e2.x**2) + (e2.y**2) + (e2.z**2))
+    cos  = coef/num
+
+    print(str(coef) + " - " + str(num) + " - " + str(cos))
+
+    return math.acos(cos)
+
+'''
+Funçao antiga que usamos numa tentativa de otimizar o custo, mas deixamos pra lá
+'''
+def check_colissions(esferas):
+    remaining_spheres = esferas.copy()
+    for e1 in esferas:
+        for e2 in remaining_spheres:
+            if(e1 != e2): # Compara apenas com as outras esferas
+                distance = math.sqrt(((e2.x - e1.x)**2) + ((e2.y - e1.y)**2) + ((e2.z - e1.z)**2)) # Calcula a distância entre os centros das esferas
+
+                if(distance < (e2.raio + e1.raio)): # Se a distancia entre os centros é menor que a soma dos raios, então houve uma colisão
+                    e1.invert_speed(e2)
+                    e2.invert_speed(e1)
+
+        remaining_spheres.pop()
