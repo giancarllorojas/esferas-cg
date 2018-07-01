@@ -48,10 +48,11 @@ def inicializa():
     glEnable(GL_DEPTH_TEST)
     glClearColor(1.0,1.0,1.0,1.0)
 
+    # Prepara matriz de perspectiva
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluPerspective(60.0,1.0,1.0,50.0)
-    glTranslatef(0.0,0.0,-3.5)
+    gluPerspective(60.0,1.0,1.0,10.0)
+    glTranslatef(0.0,0.0,-4)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
 

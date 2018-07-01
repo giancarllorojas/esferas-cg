@@ -20,7 +20,7 @@ class Esfera:
         self.raio  = random.uniform(0.1, 0.2)
 
         #Fronteiras do cubo
-        self.max   = (tamanho_cubo/2) - (self.raio/2)
+        self.max   = (tamanho_cubo/2) - (self.raio)
         self.min   = -self.max
 
         #Posição aleatória
@@ -39,8 +39,10 @@ class Esfera:
         self.speedy = random.uniform(0,0.05)
         self.speedz = random.uniform(0,0.05)
 
-    
-    def action(self):
+    '''
+    Checa para testar se a esfera está nos limites do cubo
+    '''
+    def checa_limites(self):
         if(self.x > self.max):
             self.speedx *= -1
             self.x = self.max
@@ -61,7 +63,9 @@ class Esfera:
         if(self.z < self.min):
             self.speedz *= -1
             self.z = self.min
-
+    
+    def action(self):
+        self.checa_limites()
         self.checa_colisoes()
 
         self.x += self.speedx
