@@ -95,6 +95,8 @@ class Esfera:
         self.y += self.speedy
         self.z += self.speedz
 
+    # Implementação da ideia descrita aqui:
+    # https://www.gamasutra.com/view/feature/131424/pool_hall_lessons_fast_accurate_.php?page=3
     def responde_colisao(self, e2):
         r1 = np.array([self.x, self.y, self.z])
         r2 = np.array([e2.x, e2.y, e2.z])
