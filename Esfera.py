@@ -57,8 +57,11 @@ class Esfera:
         #Posição aleatória
         self.x      = random.uniform(self.min, self.max)
         self.y      = random.uniform(self.min, self.max)
-        self.z      = 0#random.uniform(self.min, self.max)
-        
+        self.z      = random.uniform(self.min, self.max)
+
+        #Colisões recentes
+        self.colididos = []
+            
         self.massa  = self.raio*2
         
 
@@ -114,6 +117,10 @@ class Esfera:
         nv1 = v1 - optP*e2.massa*normal
         nv2 = v2 + optP*self.massa*normal
 
+        #Evitar novos cálculos durante mesma colisão
+        self.colididos.append(e2)
+        e2.colididos.append(self)
+
         self.altera_velocidade(nv1)
         e2.altera_velocidade(nv2)
 
@@ -128,8 +135,12 @@ class Esfera:
             if(e != self): # Compara apenas com as outras esferas
                 distance = abs(math.sqrt(((e.x - self.x)**2) + ((e.y - self.y)**2) + ((e.z - self.z)**2))) # Calcula a distância entre os centros das esferas
 
-                if(distance < (e.raio + self.raio)  - 0.1): # Se a distancia entre os centros é menor que a soma dos raios, então houve uma colisão
+                if((e not in self.colididos) and (distance < (e.raio + self.raio) - 0.1)): # Se a distancia entre os centros é menor que a soma dos raios, então houve uma colisão
                     self.responde_colisao(e)
+                
+                if((e in self.colididos) and (distance > (e.raio + self.raio) - 0.1)):
+                    self.colididos.remove(e)
+                    e.colididos.remove(self)
 
     '''
     Desenha a esfera na posicao atual
